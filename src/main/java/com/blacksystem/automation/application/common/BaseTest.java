@@ -1,0 +1,231 @@
+package com.blacksystem.automation.application.common;
+
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.Markup;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.blacksystem.automation.application.dto.DashboardInformationDto;
+import com.blacksystem.automation.application.properties.ContextProperties;
+import com.blacksystem.automation.application.reports.ExtendReportManager;
+import com.blacksystem.automation.application.reports.ExtentITestListener;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.testng.ITestContext;
+import org.testng.ITestResult;
+import org.testng.SkipException;
+import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
+
+@Listeners(ExtentITestListener.class)
+public class BaseTest {
+
+    public static Logger logger = LogManager.getLogger();
+    protected static final Level LOG_BASE_TEST = Level.forName("BASE_TEST",451);
+
+    public SoftAssert assertGroup;
+
+    //Share Dto Object for adding Environment Information to the Dashboard of Extent Report
+    //Set Information on Test SetUp Before Test
+    public DashboardInformationDto info = new DashboardInformationDto();
+
+    //Share Has Map for Additional Details
+    public HashMap<String,String> additionalInfo = new HashMap<>();
+
+    /*-[Private Attributes]--------------------------------------------------*/
+    public static String baseUrl;
+
+    @BeforeSuite(alwaysRun = true)
+    protected void beforeSuite001(ITestContext context){
+        logger.log(LOG_BASE_TEST,"Setup Before Suite 001");
+        //Initialize Context Properties
+        ContextProperties.setProperties(context);
+
+        baseUrl = ContextProperties.getBaseUrl();
+
+        //Setting Logger Root Level Run Time
+        Configurator.setRootLevel(ContextProperties.getLevel());
+
+        logger.info("Log Level: "+ContextProperties.getLogLevel());
+    }
+
+    /*------------------------------[Suite Events]------------------------------*/
+    @BeforeSuite(alwaysRun = true)
+    public void beforeSuite002(ITestContext context){
+        logger.log(LOG_BASE_TEST,"Setup Before Suite 002");
+        logger.info("Parallel Mode: "+ ContextProperties.getParallelMode());
+
+        if(ContextProperties.getParallelMode().equalsIgnoreCase("none") ||
+                ContextProperties.getParallelMode().equalsIgnoreCase("false") ||
+                ContextProperties.getParallelMode().equalsIgnoreCase("true")){
+
+            logger.log(LOG_BASE_TEST,"Parallel Mode: "+ContextProperties.getParallelMode());
+
+        }
+    }
+
+    @AfterSuite(alwaysRun = true)
+    public void afterSuite001(){
+        logger.log(LOG_BASE_TEST,"After Suite");
+        if(ContextProperties.getParallelMode().equalsIgnoreCase("none") ||
+                ContextProperties.getParallelMode().equalsIgnoreCase("false") ||
+                ContextProperties.getParallelMode().equalsIgnoreCase("true")){
+            //Here Some Procedure After Suite Execute
+        }
+    }
+
+    /*------------------------------[Class Events]------------------------------*/
+    @BeforeClass(alwaysRun = true)
+    public void beforeClass001(ITestContext context){
+        if(ContextProperties.getParallelMode().equalsIgnoreCase("classes")){
+            logger.log(LOG_BASE_TEST,"Before Class");
+            logger.log(LOG_BASE_TEST,"Init Driver: "+ContextProperties.getParallelMode());
+            //Here Some Procedure Before Class
+        }
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void afterClass001(ITestContext context){
+        if(ContextProperties.getParallelMode().equalsIgnoreCase("classes")){
+            logger.log(LOG_BASE_TEST,"After Class");
+            logger.log(LOG_BASE_TEST,"Closing Driver");
+            //Here Some Procedure After Class
+        }
+    }
+
+    /*------------------------------[Method Events]------------------------------*/
+    @BeforeMethod(alwaysRun = true)
+    public void beforeMethod001(ITestContext context){
+        if(ContextProperties.getParallelMode().equalsIgnoreCase("methods")){
+            logger.log(LOG_BASE_TEST,"Before Method");
+            logger.log(LOG_BASE_TEST,"Parallel Mode: "+ContextProperties.getParallelMode());
+            //Here Some Procedure Before Method
+        }
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void afterMethod001(){
+        logger.log(LOG_BASE_TEST,"After Method");
+        if(ContextProperties.getParallelMode().equalsIgnoreCase("methods")){
+            logger.log(LOG_BASE_TEST,"Closing Browser");
+            //Here Some Procedure After Method
+        }
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void beforeMethod002(Method method){
+        logger.info("TEST STARTED: " + getClass().getName()+ "."+method.getName());
+        assertGroup = new SoftAssert();
+    }
+
+    @AfterMethod (alwaysRun = true)
+    public void afterMethod002(ITestResult result, Method method){
+
+        switch (result.getStatus()){
+            case ITestResult.SUCCESS:
+                logger.info("TEST PASSED: " + this.getClass().getName()+ "." + method.getName()+"\n"+ Constants.SEPARATOR);
+                break;
+            case ITestResult.FAILURE:
+                logger.info("TEST FAILED: " + this.getClass().getName()+ "." + method.getName()+"\n"+Constants.SEPARATOR);
+                break;
+            case ITestResult.SKIP:
+                logger.info("TEST SKIPPED: " + this.getClass().getName()+ "." + method.getName()+"\n"+Constants.SEPARATOR);
+                break;
+            default:
+                logger.error("ITest Result not identify: "+result.getStatus());
+        }
+
+    }
+
+    /*------------------------------[Test Events]------------------------------*/
+    @BeforeTest(alwaysRun = true)
+    public void beforeTest001(ITestContext context){
+        if(ContextProperties.getParallelMode().equalsIgnoreCase("tests")){
+            logger.log(LOG_BASE_TEST,"Before Test");
+            logger.log(LOG_BASE_TEST,"Init Driver: "+ContextProperties.getParallelMode());
+            //Before Procedure Test Execution
+        }
+
+    }
+
+    @AfterTest(alwaysRun = true)
+    public void afterTest001(ITestContext context){
+        if(ContextProperties.getParallelMode().equalsIgnoreCase("tests")){
+            logger.log(LOG_BASE_TEST,"After Test");
+            logger.debug("Close Driver");
+            //After Procedure Test Execution
+        }
+    }
+
+    /**
+     * This method is used for Describe the Test Case Description in the log
+     */
+
+    @AfterTest
+    public void afterTest002_addNewEnvironmentInformation(){
+        //After Test Information Add Dashboard Information
+        ExtendReportManager.addEnvironmentInformation((HashMap<String, String>) info.toMap());
+
+        if(additionalInfo.size()>0){
+            ExtendReportManager.addEnvironmentInformation(additionalInfo);
+        }
+    }
+
+    /**
+     * Set a skip condition for a specific scenario to evaluate
+     * @param skipMessage Message for Precondition to evaluate
+     * @param method This automatically call by execution runtime
+     */
+    public void setSkipCondition(String skipMessage, Method method){
+        logger.info("SKIP DESCRIPTION: "+skipMessage+"\n"+Constants.SEPARATOR);
+        throw new SkipException(this.getClass().getName()+method.getName()+ ": " + skipMessage);
+    }
+
+    // Extent Reports Methods
+
+    /*
+     * Set Step Details Plain Text Message by Test
+     * */
+    public void setStepDetails(String message){
+        ExtentITestListener.test.info(message);
+    }
+
+    /*
+     * Set Step Details HTML Format Message by Test, with field and value
+     * */
+    public void setStepURL(String message){
+        String logText = "<strong style\"font-weight: bolder;\" > URL<strong>: <a target=\"_blank\" href=\""+message.replaceAll("\\s+","")+"\">"+message;
+        Markup markup = MarkupHelper.createLabel(logText, ExtentColor.TRANSPARENT);
+        ExtentITestListener.test.info(markup);
+    }
+
+    /*
+     * Set Step Details HTML Format Message by Test, with field and value
+     * */
+    public void setStepTestCaseID(String message){
+        String jiraDomain = ContextProperties.getJiraDomain();
+        String logText = "<strong style=\"font-weight: bolder;\">Test Case ID</strong>: <a target=\"_blank\" href=\""+jiraDomain+"/browse/"+message.replaceAll("\\s+","")+"\">"+message+"</a>";
+        Markup markup = MarkupHelper.createLabel(logText, ExtentColor.TRANSPARENT);
+        ExtentITestListener.test.info(markup);
+    }
+
+    /*
+     * Set Step Details HTML Format Message by Test, with field and value
+     * */
+    public void setStepDetailsHTML(String field, String message){
+        String logText = "<strong style\"font-weight: bolder;\" > "+field+"</strong>: "+message;
+        Markup markup = MarkupHelper.createLabel(logText, ExtentColor.TRANSPARENT);
+        ExtentITestListener.test.info(markup);
+    }
+
+    /*
+     * Add Dashboard Details Message by Test
+     * */
+    public void addDashboardDetails(String name, String value){
+        additionalInfo.put(name,value);
+    }
+
+}

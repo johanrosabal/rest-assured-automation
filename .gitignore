@@ -1,0 +1,13 @@
+# Target
+/target/
+target/
+
+#Reports
+test-output/
+/test-output/
+*log.txt
+
+# Intellij
+# \.idea/
+# *.iml
+# *.iws

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN" monitorInterval="30">
+
+    <Properties>
+        <Property name="txtLog">target/reports/logs/log.txt</Property>
+        <Property name="csvLog.fileName">target/reports/logs/csvLog</Property>
+    </Properties>
+
+    <Appenders>
+        <File name="Application" fileName="${txtLog}">
+            <PatternLayout header="${java:runtime} - ${java:vm} - ${java:os} File: ${main:--file}">
+                <Pattern>[%threadPriority][%t] %d{HH:mm:ss.SSS}: %-5p  %c{3} - %msg %n %throwable{short}</Pattern>
+            </PatternLayout>
+        </File>
+
+        <Async name="Async">
+            <AppenderRef ref="Application"/>
+        </Async>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout header="${java:runtime} - ${java:vm} - ${java:os}">
+                <Pattern>[%threadPriority][%t] %d{HH:mm:ss.SSS}: %-5p  %c{3} - %msg %n %throwable{short}</Pattern>
+            </PatternLayout>
+        </Console>
+
+    </Appenders>
+
+    <Loggers>
+        <Logger name="Application" level="debug" additivity="false">
+            <appender-ref ref="Application" />
+        </Logger>
+        <Logger name="consoleLogger" level="debug" additivity="false">
+            <appender-ref ref="Console" />
+        </Logger>
+
+        <Root level="info" additivity="false">
+            <appender-ref ref="Async" />
+            <appender-ref ref="Console" />
+        </Root>
+    </Loggers>
+</configuration>
