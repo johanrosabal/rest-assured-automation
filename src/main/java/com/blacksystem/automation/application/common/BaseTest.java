@@ -7,6 +7,8 @@ import com.blacksystem.automation.application.dto.DashboardInformationDto;
 import com.blacksystem.automation.application.properties.ContextProperties;
 import com.blacksystem.automation.application.reports.ExtendReportManager;
 import com.blacksystem.automation.application.reports.ExtentITestListener;
+import io.restassured.RestAssured;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +18,8 @@ import org.testng.ITestResult;
 import org.testng.SkipException;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
-
+import io.restassured.response.Response;
+import static io.restassured.RestAssured.*;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
@@ -25,6 +28,7 @@ public class BaseTest {
 
     public static Logger logger = LogManager.getLogger();
     protected static final Level LOG_BASE_TEST = Level.forName("BASE_TEST",451);
+    public Response response;
 
     public SoftAssert assertGroup;
 
@@ -50,6 +54,9 @@ public class BaseTest {
         Configurator.setRootLevel(ContextProperties.getLevel());
 
         logger.info("Log Level: "+ContextProperties.getLogLevel());
+
+        RestAssured.baseURI = "http://localhost:5001/meet-me-core-api/us-central1/app";
+        //RestAssured.filters(ResponseLoggingFilter.responseLogger(),new ResponseLoggingFilter());
     }
 
     /*------------------------------[Suite Events]------------------------------*/
@@ -99,6 +106,7 @@ public class BaseTest {
     /*------------------------------[Method Events]------------------------------*/
     @BeforeMethod(alwaysRun = true)
     public void beforeMethod001(ITestContext context){
+        response = null;
         if(ContextProperties.getParallelMode().equalsIgnoreCase("methods")){
             logger.log(LOG_BASE_TEST,"Before Method");
             logger.log(LOG_BASE_TEST,"Parallel Mode: "+ContextProperties.getParallelMode());
@@ -191,6 +199,23 @@ public class BaseTest {
      * */
     public void setStepDetails(String message){
         ExtentITestListener.test.info(message);
+        logger.info(message);
+    }
+
+    /*
+     * Set Step Details Plain Text Message by Test
+     * */
+    public void setStepDetails(String attribute, String value){
+        ExtentITestListener.test.info(attribute + ": " + value);
+        logger.info(attribute + ": " + value);
+    }
+
+    /*
+     * Set Step Details Plain Text Message by Test
+     * */
+    public void setStepDetails(String attribute, int value){
+        ExtentITestListener.test.info(attribute + ": " + String.valueOf(value));
+        logger.info(attribute + ": " + value);
     }
 
     /*
@@ -228,4 +253,65 @@ public class BaseTest {
         additionalInfo.put(name,value);
     }
 
+    /*
+     * Get Response Body
+     * */
+    public static void getResponse(Response response){
+        String message = response.getBody().asString();
+        String logText = "<span style=\"color: black;\"><strong style=\"font-weight: bolder;\">Response Body</strong>: "+message+"</span>";
+        Markup markup = MarkupHelper.createLabel(logText, ExtentColor.ORANGE);
+        ExtentITestListener.test.info(markup);
+        logger.info("Response: "+ message);
+    }
+
+    /*
+     * End Point URL
+     * */
+    public static void getEndPoint(String url){
+
+        String logText = "<span style=\"color: black;\"><strong style=\"font-weight: bolder;\">End Point</strong>: "+url+"</span>";
+        Markup markup = MarkupHelper.createLabel(logText, ExtentColor.ORANGE);
+        ExtentITestListener.test.info(markup);
+        logger.info("Endpoint: "+ url);
+    }
+
+    /*
+     * Get Status Code From Response
+     * */
+    public static void getStatusCode(Response response){
+        String message = response.getStatusCode() + " - " + response.getStatusLine();
+        String logText = "<span style=\"color: black;\"><strong style=\"font-weight: bolder;\">Status Code</strong>: "+message+"</span>";
+        Markup markup = MarkupHelper.createLabel(logText, ExtentColor.LIME);
+        ExtentITestListener.test.info(markup);
+        logger.info("Status Code: "+ message);
+    }
+
+    /*
+     * Get Status Code From Response
+     * */
+    public static void getRequestBody(String message){
+        String logText = "<span style=\"color: black;\"><strong style=\"font-weight: bolder;\">Request</strong>: <code>"+message+"</code></span>";
+        Markup markup = MarkupHelper.createLabel(logText, ExtentColor.LIME);
+        ExtentITestListener.test.info(markup);
+        logger.info("Request Body: "+ message);
+    }
+
+    /*
+     * Get Response Time
+     * */
+    public static void getResponseTime(Response response){
+        String message = String.valueOf(response.getTime());
+        String logText = "<span style=\"color: black;\"><strong style=\"font-weight: bolder;\">Response Time</strong>: "+message+"</span>";
+        Markup markup = MarkupHelper.createLabel(logText, ExtentColor.AMBER);
+        ExtentITestListener.test.info(markup);
+        logger.info("Response Time: "+ message);
+    }
+
+    public static void pause(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

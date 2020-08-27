@@ -51,7 +51,7 @@ public class ExtentITestListener implements ITestListener {
     @Override
     public void onTestSuccess(ITestResult result) {
         String logText = "<b>"+result.getMethod().getMethodName()+" - Successful</b>";
-        Markup markup = MarkupHelper.createLabel(logText, ExtentColor.GREEN);
+        Markup markup = MarkupHelper.createLabel(logText, ExtentColor.PURPLE);
         extentTest.get().log(Status.PASS,markup);
     }
 
