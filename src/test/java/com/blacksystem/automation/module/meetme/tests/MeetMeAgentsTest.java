@@ -3,10 +3,13 @@ package com.blacksystem.automation.module.meetme.tests;
 import com.blacksystem.automation.application.common.BaseTest;
 import com.blacksystem.automation.module.meetme.collections.RestAssuredAgents;
 import com.blacksystem.automation.module.meetme.dtos.*;
+import com.blacksystem.automation.module.meetme.quicktype.AgentsErrorValidations;
+import com.blacksystem.automation.module.meetme.quicktype.Converter;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MeetMeAgentsTest extends BaseTest {
@@ -122,7 +125,7 @@ public class MeetMeAgentsTest extends BaseTest {
     }
 
     @Test(description = "Inactive Agent By Id")
-    public void test08_Put_ActiveAgentBy(){
+    public void test08_Put_ActiveAgentById(){
         AgentDto agentDto = new AgentDto().init();
         Response postAgentResponse = RestAssuredAgents.postAgent(agentDto,200);
         Assert.assertEquals(postAgentResponse.getStatusCode(),200);
@@ -137,7 +140,7 @@ public class MeetMeAgentsTest extends BaseTest {
     }
 
     @Test(description = "Inactive Agent Email By Id")
-    public void test09_Put_InactiveAgentEmailBy(){
+    public void test09_Put_InactiveAgentEmailById(){
         AgentDto agentDto = new AgentDto().init();
         Response postAgentResponse = RestAssuredAgents.postAgent(agentDto,200);
         Assert.assertEquals(postAgentResponse.getStatusCode(),200);
@@ -182,10 +185,13 @@ public class MeetMeAgentsTest extends BaseTest {
     }
 
     @Test(description = "Post Empty Agent Verify Required Fields")
-    public void test12_Post_Agent_Validation(){
+    public void test12_Post_Agent_Validation() throws IOException {
         AgentDto agentDto = new AgentDto();
 
         Response response  = RestAssuredAgents.postAgent(agentDto,200);
+
+        AgentsErrorValidations data = Converter.fromJsonString(response);
+        System.out.println(data);
 
         AgentErrorsDto errors = new AgentErrorsDto(response);
         assertGroup.assertEquals(errors.getId(),"field must be provided.");
@@ -203,12 +209,12 @@ public class MeetMeAgentsTest extends BaseTest {
         assertGroup.assertEquals(errors.getLanguage(),"Language must be provided.");
         assertGroup.assertEquals(errors.getCountry(), "Country Code must be provided.");
 
-        assertGroup.assertEquals(errors.getPhoneToken(), "Phone Token must be provided.");
-        assertGroup.assertEquals(errors.getBankAccount(), "Bank Account must be provided.");
-        assertGroup.assertEquals(errors.getBankName(), "Bank Name must be provided.");
-        assertGroup.assertEquals(errors.getDescription(), "Description must be provided.");
-        assertGroup.assertEquals(errors.getSwipperPhoto(), "Swipper Photo must be provided.");
-        assertGroup.assertEquals(errors.getHeroPhoto(), "Hero Photo must be provided.");
+//        assertGroup.assertEquals(errors.getPhoneToken(), "Phone Token must be provided.");
+//        assertGroup.assertEquals(errors.getBankAccount(), "Bank Account must be provided.");
+//        assertGroup.assertEquals(errors.getBankName(), "Bank Name must be provided.");
+//        assertGroup.assertEquals(errors.getDescription(), "Description must be provided.");
+//        assertGroup.assertEquals(errors.getSwipperPhoto(), "Swipper Photo must be provided.");
+//        assertGroup.assertEquals(errors.getHeroPhoto(), "Hero Photo must be provided.");
 
         assertGroup.assertAll();
     }
@@ -231,7 +237,7 @@ public class MeetMeAgentsTest extends BaseTest {
         AgentDto agentDto = new AgentDto().init();
         Response responseGet  = RestAssuredAgents.editAgentsById(agentDto.getId(),agentDto,200);
         Assert.assertEquals(responseGet.getStatusCode(),200);
-
+        pause();
         ResponseDto response = new ResponseDto(responseGet);
         assertGroup.assertEquals(response.getID(),agentDto.getId());
         assertGroup.assertEquals(response.getStatus(),"FAILED");
@@ -330,5 +336,139 @@ public class MeetMeAgentsTest extends BaseTest {
         assertGroup.assertAll();
     }
 
+    @Test(description = "Update Inactivate Status By Agent Id")
+    public void test22_Put_Status_Inactivate_AgentById(){
+        AgentDto agentDto = new AgentDto().init();
+        Response postAgentResponse = RestAssuredAgents.postAgent(agentDto,200);
+        Assert.assertEquals(postAgentResponse.getStatusCode(),200);
+        pause();
+
+        Response putCoinsResponse  = RestAssuredAgents.inactiveStatusAgent(agentDto.getId(),200);
+
+        ResponseDto response = new ResponseDto(putCoinsResponse);
+        assertGroup.assertEquals(response.getID(),agentDto.getId());
+        assertGroup.assertEquals(response.getStatus(),"COMPLETED");
+        assertGroup.assertEquals(response.getMessage(),"Status has been updated successfully.");
+        assertGroup.assertAll();
+    }
+
+    @Test(description = "Update Activate Status By Agent Id")
+    public void test23_Put_Status_Activate_AgentById(){
+        AgentDto agentDto = new AgentDto().init();
+        Response postAgentResponse = RestAssuredAgents.postAgent(agentDto,200);
+        Assert.assertEquals(postAgentResponse.getStatusCode(),200);
+        pause();
+
+        Response putCoinsResponse  = RestAssuredAgents.activeStatusAgent(agentDto.getId(),200);
+
+        ResponseDto response = new ResponseDto(putCoinsResponse);
+        assertGroup.assertEquals(response.getID(),agentDto.getId());
+        assertGroup.assertEquals(response.getStatus(),"COMPLETED");
+        assertGroup.assertEquals(response.getMessage(),"Status has been updated successfully.");
+        assertGroup.assertAll();
+    }
+
+    @Test(description = "Update Notes By Agent Id")
+    public void test24_Put_Updates_Notes_AgentById(){
+        String notes = "Some Notes.";
+        AgentDto agentDto = new AgentDto().init();
+        Response postAgentResponse = RestAssuredAgents.postAgent(agentDto,200);
+        Assert.assertEquals(postAgentResponse.getStatusCode(),200);
+        pause();
+
+        Response putCoinsResponse  = RestAssuredAgents.updatesNotesAgent(agentDto.getId(),notes,200);
+
+        ResponseDto response = new ResponseDto(putCoinsResponse);
+        assertGroup.assertEquals(response.getID(),agentDto.getId());
+        assertGroup.assertEquals(response.getStatus(),"COMPLETED");
+        assertGroup.assertEquals(response.getMessage(),"Agents Notes has been updated successfully.");
+        assertGroup.assertAll();
+    }
+
+    @Test(description = "Inactive Agent Email By Id")
+    public void test25_Put_Update_Total_Calls_AgentById(){
+        String totalCalls = "5";
+        AgentDto agentDto = new AgentDto().init();
+        Response postAgentResponse = RestAssuredAgents.postAgent(agentDto,200);
+        Assert.assertEquals(postAgentResponse.getStatusCode(),200);
+        pause();
+
+        Response putCoinsResponse  = RestAssuredAgents.updatesTotalCallsAgent(agentDto.getId(),totalCalls,200);
+
+        ResponseDto response = new ResponseDto(putCoinsResponse);
+        assertGroup.assertEquals(response.getID(),agentDto.getId());
+        assertGroup.assertEquals(response.getStatus(),"COMPLETED");
+        assertGroup.assertEquals(response.getMessage(),"Total Calls has been updated successfully.");
+        assertGroup.assertAll();
+    }
+
+    @Test(description = "Inactive Agent Email By Id")
+    public void test26_Put_Update_Rate_Agent_Validation(){
+        String rate = "5";
+        AgentDto agentDto = new AgentDto().init();
+        Response postAgentResponse = RestAssuredAgents.postAgent(agentDto,200);
+        Assert.assertEquals(postAgentResponse.getStatusCode(),200);
+        pause();
+
+        Response putCoinsResponse  = RestAssuredAgents.updatesRateAgent(agentDto.getId(),rate,200);
+
+        ResponseDto response = new ResponseDto(putCoinsResponse);
+        assertGroup.assertEquals(response.getID(),agentDto.getId());
+        assertGroup.assertEquals(response.getStatus(),"COMPLETED");
+        assertGroup.assertEquals(response.getMessage(),"Rates has been updated successfully.");
+        assertGroup.assertAll();
+    }
+
+    @Test(description = "Update Swipper Photo By Agent Id")
+    public void test27_Put_Updates_SwipperPhoto_AgentById(){
+        String swipper = "http://google.com";
+        AgentDto agentDto = new AgentDto().init();
+        Response postAgentResponse = RestAssuredAgents.postAgent(agentDto,200);
+        Assert.assertEquals(postAgentResponse.getStatusCode(),200);
+        pause();
+
+        Response putCoinsResponse  = RestAssuredAgents.updatesSwipperPhotoAgent(agentDto.getId(),swipper,200);
+
+        ResponseDto response = new ResponseDto(putCoinsResponse);
+        assertGroup.assertEquals(response.getID(),agentDto.getId());
+        assertGroup.assertEquals(response.getStatus(),"COMPLETED");
+        assertGroup.assertEquals(response.getMessage(),"Agents Swipper Photo has been updated successfully.");
+        assertGroup.assertAll();
+    }
+
+    @Test(description = "Update Hero Photo By Agent Id")
+    public void test28_Put_Updates_HeroPhoto_AgentById(){
+        String hero = "http://hotmail.com";
+        AgentDto agentDto = new AgentDto().init();
+        Response postAgentResponse = RestAssuredAgents.postAgent(agentDto,200);
+        Assert.assertEquals(postAgentResponse.getStatusCode(),200);
+        pause();
+
+        Response putCoinsResponse  = RestAssuredAgents.updatesHeroPhotoAgent(agentDto.getId(),hero,200);
+
+        ResponseDto response = new ResponseDto(putCoinsResponse);
+        assertGroup.assertEquals(response.getID(),agentDto.getId());
+        assertGroup.assertEquals(response.getStatus(),"COMPLETED");
+        assertGroup.assertEquals(response.getMessage(),"Agents Hero Photo has been updated successfully.");
+        assertGroup.assertAll();
+    }
+
+    @Test(description = "Update Banking Information By Agent Id")
+    public void test29_Put_Updates_BankingInformation_AgentById(){
+        String bankName = "http://hotmail.com";
+        String bankAccount = "555555555555555";
+        AgentDto agentDto = new AgentDto().init();
+        Response postAgentResponse = RestAssuredAgents.postAgent(agentDto,200);
+        Assert.assertEquals(postAgentResponse.getStatusCode(),200);
+        pause();
+
+        Response putCoinsResponse  = RestAssuredAgents.updatesBankingInformationAgent(agentDto.getId(),bankName,bankAccount,200);
+
+        ResponseDto response = new ResponseDto(putCoinsResponse);
+        assertGroup.assertEquals(response.getID(),agentDto.getId());
+        assertGroup.assertEquals(response.getStatus(),"COMPLETED");
+        assertGroup.assertEquals(response.getMessage(),"Agents Banking Information has been updated successfully.");
+        assertGroup.assertAll();
+    }
 
 }

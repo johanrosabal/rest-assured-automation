@@ -106,23 +106,27 @@ public class AgentDto {
 
         this.language = "ES";
         this.country = "CR";
-        this.phoneToken = "99999-55555-555-99999";
-
-        this.bankAccount = "21321331312";
-        this.bankName = "Bank Name";
-
         this.description = "Some Description";
-        this.swipperPhoto = "http://google.com";
-        this.heroPhoto = "http://google.com";
+
+        /*******************************************************************************************************************/
+
+        this.swipperPhoto = "";
+        this.heroPhoto = "";
+
+        this.bankAccount = "";
+        this.bankName = "";
+
+        this.phoneToken = "";
+
         this.emailVerified = false;
+
+        this.active = true;
+        this.status = false;
 
         this.notes = "";
         this.rate = 0;
         this.coins = 0;
         this.totalCalls = 0;
-
-        this.active = true;
-        this.status = false;
 
         this.dateModified = DatesUtils.convertDateToString(new Date(), DatesUtils.US_DATE);
         this.dateCreated =  DatesUtils.convertDateToString(new Date(), DatesUtils.US_DATE);

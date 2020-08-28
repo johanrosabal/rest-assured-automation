@@ -305,4 +305,188 @@ public class RestAssuredAgents {
         return response;
     }
 
+    public static Response inactiveStatusAgent(String id, int statusCode){
+        String endPoint = RestAssured.baseURI+"/api/agents/status/"+id+"/inactive";
+        BaseTest.getEndPoint(endPoint);
+
+        Response response = given()
+
+                .when()
+                .put(endPoint)
+                .then()
+                .extract()
+                .response();
+
+        BaseTest.getResponse(response);
+        BaseTest.getStatusCode(response);
+        BaseTest.getResponseTime(response);
+
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Inactive Agent By Id Status Code Incorrect, ");
+        return response;
+    }
+
+    public static Response activeStatusAgent(String id, int statusCode){
+        String endPoint = RestAssured.baseURI+"/api/agents/status/"+id+"/activate";
+        BaseTest.getEndPoint(endPoint);
+
+        Response response = given()
+
+                .when()
+                .put(endPoint)
+                .then()
+                .extract()
+                .response();
+
+        BaseTest.getResponse(response);
+        BaseTest.getStatusCode(response);
+        BaseTest.getResponseTime(response);
+
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Active Agent By Id Status Code Incorrect, ");
+        return response;
+    }
+
+    public static Response updatesNotesAgent(String id,String notes, int statusCode){
+        String endPoint = RestAssured.baseURI+"/api/agents/notes/"+id;
+        BaseTest.getEndPoint(endPoint);
+
+        String request = "{\"notes\" : \""+notes+"\"}";
+        BaseTest.getRequestBody(request);
+        Response response = given()
+
+                .when()
+                .headers("Content-Type","application/json")
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(request)
+                .put(endPoint)
+                .then()
+                .extract()
+                .response();
+
+        BaseTest.getResponse(response);
+        BaseTest.getStatusCode(response);
+        BaseTest.getResponseTime(response);
+
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Active Agent By Id Status Code Incorrect, ");
+        return response;
+    }
+
+    public static Response updatesTotalCallsAgent(String id,String calls, int statusCode){
+        String endPoint = RestAssured.baseURI+"/api/agents/total-calls/"+id+"/"+calls;
+        BaseTest.getEndPoint(endPoint);
+
+        Response response = given()
+
+                .when()
+                .put(endPoint)
+                .then()
+                .extract()
+                .response();
+
+        BaseTest.getResponse(response);
+        BaseTest.getStatusCode(response);
+        BaseTest.getResponseTime(response);
+
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Total Calls Agent By Id Status Code Incorrect, ");
+        return response;
+    }
+
+    public static Response updatesRateAgent(String id,String rate, int statusCode){
+        String endPoint = RestAssured.baseURI+"/api/agents/rates/"+id+"/"+rate;
+        BaseTest.getEndPoint(endPoint);
+
+        Response response = given()
+
+                .when()
+                .put(endPoint)
+                .then()
+                .extract()
+                .response();
+
+        BaseTest.getResponse(response);
+        BaseTest.getStatusCode(response);
+        BaseTest.getResponseTime(response);
+
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Rate Agent By Id Status Code Incorrect, ");
+        return response;
+    }
+
+    public static Response updatesSwipperPhotoAgent(String id,String swipper, int statusCode){
+        String endPoint = RestAssured.baseURI+"/api/agents/swipper/"+id;
+        BaseTest.getEndPoint(endPoint);
+
+        String request = "{\"swipperPhoto\" : \""+swipper+"\"}";
+        BaseTest.getRequestBody(request);
+        Response response = given()
+
+                .when()
+                .headers("Content-Type","application/json")
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(request)
+                .put(endPoint)
+                .then()
+                .extract()
+                .response();
+
+        BaseTest.getResponse(response);
+        BaseTest.getStatusCode(response);
+        BaseTest.getResponseTime(response);
+
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Swipper Photo Agent By Id Status Code Incorrect, ");
+        return response;
+    }
+
+    public static Response updatesHeroPhotoAgent(String id,String hero, int statusCode){
+        String endPoint = RestAssured.baseURI+"/api/agents/hero/"+id;
+        BaseTest.getEndPoint(endPoint);
+
+        String request = "{\"heroPhoto\" : \""+hero+"\"}";
+        BaseTest.getRequestBody(request);
+        Response response = given()
+
+                .when()
+                .headers("Content-Type","application/json")
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(request)
+                .put(endPoint)
+                .then()
+                .extract()
+                .response();
+
+        BaseTest.getResponse(response);
+        BaseTest.getStatusCode(response);
+        BaseTest.getResponseTime(response);
+
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Swipper Photo Agent By Id Status Code Incorrect, ");
+        return response;
+    }
+
+    public static Response updatesBankingInformationAgent(String id,String bankName,String bankAccount, int statusCode){
+        String endPoint = RestAssured.baseURI+"/api/agents/banking/"+id;
+        BaseTest.getEndPoint(endPoint);
+
+        String request = "{\"bankName\" : \""+bankName+"\",\"bankAccount\" : \"" + bankAccount+"\"}";
+        BaseTest.getRequestBody(request);
+        Response response = given()
+
+                .when()
+                .headers("Content-Type","application/json")
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(request)
+                .put(endPoint)
+                .then()
+                .extract()
+                .response();
+
+        BaseTest.getResponse(response);
+        BaseTest.getStatusCode(response);
+        BaseTest.getResponseTime(response);
+
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Banking Information Agent By Id Status Code Incorrect, ");
+        return response;
+    }
+
 }
