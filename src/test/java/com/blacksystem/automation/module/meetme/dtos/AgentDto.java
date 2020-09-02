@@ -1,6 +1,7 @@
 package com.blacksystem.automation.module.meetme.dtos;
 
 import com.blacksystem.automation.application.utils.DatesUtils;
+import com.blacksystem.automation.application.utils.NumbersUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import com.google.gson.Gson;
@@ -94,14 +95,14 @@ public class AgentDto {
         Faker faker = new Faker();
 
         this.id = UUID.randomUUID().toString();
-        this.firstName = faker.name().firstName();
-        this.lastName = faker.name().lastName();
-        this.secondLastName = faker.name().lastName();
-        this.ssn = "22240943802";
+        this.firstName = "firstName";
+        this.lastName = "lastName";
+        this.secondLastName = "SecondName";
+        this.ssn = String.valueOf(NumbersUtils.getRandomNumberInts(10000000,99999999));
         this.birthDate = "01-01-2001";
         this.gender = "M";
-        this.nickName = faker.funnyName().name();
-        this.email = "test@test.com";
+        this.nickName = faker.funnyName().name().replace(" ","")+"_"+ NumbersUtils.getRandomNumberInts(1,99);
+        this.email = faker.funnyName().name().replace(" ","")+"_"+ NumbersUtils.getRandomNumberInts(1,99)+"@gmail.com";
         this.phoneNumber = "2222222222";
 
         this.language = "ES";

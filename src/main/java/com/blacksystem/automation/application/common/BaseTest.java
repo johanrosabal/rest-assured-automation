@@ -56,6 +56,7 @@ public class BaseTest {
         logger.info("Log Level: "+ContextProperties.getLogLevel());
 
         RestAssured.baseURI = "http://localhost:5001/meet-me-core-api/us-central1/app";
+        //RestAssured.baseURI = "https://us-central1-meet-me-core-api.cloudfunctions.net/app";
         //RestAssured.filters(ResponseLoggingFilter.responseLogger(),new ResponseLoggingFilter());
     }
 
@@ -290,7 +291,7 @@ public class BaseTest {
      * Get Status Code From Response
      * */
     public static void getRequestBody(String message){
-        String logText = "<span style=\"color: black;\"><strong style=\"font-weight: bolder;\">Request</strong>: <code>"+message+"</code></span>";
+        String logText = "<span style=\"color: black;\"><strong style=\"font-weight: bolder;\">Request Body</strong>: <code>"+message+"</code></span>";
         Markup markup = MarkupHelper.createLabel(logText, ExtentColor.LIME);
         ExtentITestListener.test.info(markup);
         logger.info("Request Body: "+ message);

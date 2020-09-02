@@ -17,18 +17,22 @@ import static io.restassured.RestAssured.given;
 public class RestAssuredAgents {
     public static Logger logger = LogManager.getLogger();
 
+    public static Response postAgent(AgentDto agentDto, int statusCode){
+        String request = agentDto.toJson();
+        logger.info("****************************** Post Agent ["+ agentDto.getId() +"] ****************************** ");
+        return postAgent(request,statusCode);
+    }
+
     /***
      * Post New Agent Request with baseUrl, agentDto, statusCode
      */
-    public static Response postAgent(AgentDto agentDto, int statusCode){
+    public static Response postAgent(String request, int statusCode){
 
-        String request = agentDto.toJson();
         BaseTest.getRequestBody(request);
-
         String endPoint = RestAssured.baseURI+"/api/agents";
         BaseTest.getEndPoint(endPoint);
         BaseTest.pause();
-        logger.info("****************************** Post Agent ["+ agentDto.getId() +"] ****************************** ");
+
         Response response = given()
                 .headers("Content-Type","application/json")
                 .contentType(ContentType.JSON)

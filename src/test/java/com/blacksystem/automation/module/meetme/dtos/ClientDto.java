@@ -1,12 +1,12 @@
 package com.blacksystem.automation.module.meetme.dtos;
 
 import com.blacksystem.automation.application.utils.DatesUtils;
+import com.blacksystem.automation.application.utils.NumbersUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import com.google.gson.Gson;
 import io.restassured.response.Response;
 
-import java.awt.image.RescaleOp;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
@@ -23,9 +23,10 @@ public class ClientDto {
     private String nickName;
     private String email;
 
-    private String phoneToken;
     private String language;
     private String country;
+    private String phoneToken;
+    private Boolean privacyPolicy;
 
     private int coins;
     private Boolean emailVerified;
@@ -53,6 +54,7 @@ public class ClientDto {
         this.language = dto.language;
         this.country = dto.country;
         this.phoneToken = dto.phoneToken;
+        this.privacyPolicy = dto.privacyPolicy;
 
         this.coins = dto.coins;
         this.emailVerified = dto.emailVerified;
@@ -68,17 +70,18 @@ public class ClientDto {
         Faker faker = new Faker();
 
         this.id = UUID.randomUUID().toString();
-        this.firstName = faker.name().firstName();
-        this.lastName = faker.name().lastName();
-        this.secondLastName = faker.name().lastName();
+        this.firstName = "firstName";
+        this.lastName = "lastName";
+        this.secondLastName = "SecondName";
         this.birthDate = "01-01-2001";
         this.gender = "M";
-        this.nickName = faker.funnyName().name();
-        this.email = "test@test.com";
+        this.nickName = faker.funnyName().name().replace(" ","")+"_"+ NumbersUtils.getRandomNumberInts(1,99);
+        this.email = faker.funnyName().name().replace(" ","")+"_"+ NumbersUtils.getRandomNumberInts(1,99)+"@gmail.com";
 
         this.language = "ES";
         this.country = "CR";
         this.phoneToken = "99999-55555-555-99999";
+        this.privacyPolicy = true;
 
         this.coins = 0;
         this.emailVerified = false;
@@ -224,6 +227,14 @@ public class ClientDto {
         this.dateCreated = dateCreated;
     }
 
+    public Boolean getPrivacyPolicy() {
+        return privacyPolicy;
+    }
+
+    public void setPrivacyPolicy(Boolean privacyPolicy) {
+        this.privacyPolicy = privacyPolicy;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -239,9 +250,10 @@ public class ClientDto {
                 Objects.equals(gender, clientDto.gender) &&
                 Objects.equals(nickName, clientDto.nickName) &&
                 Objects.equals(email, clientDto.email) &&
-                Objects.equals(phoneToken, clientDto.phoneToken) &&
                 Objects.equals(language, clientDto.language) &&
                 Objects.equals(country, clientDto.country) &&
+                Objects.equals(phoneToken, clientDto.phoneToken) &&
+                Objects.equals(privacyPolicy, clientDto.privacyPolicy) &&
                 Objects.equals(emailVerified, clientDto.emailVerified) &&
                 Objects.equals(dateCreated, clientDto.dateCreated) &&
                 Objects.equals(dateModified, clientDto.dateModified);
@@ -249,7 +261,7 @@ public class ClientDto {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, secondLastName, birthDate, gender, nickName, email, phoneToken, language, country, coins, emailVerified, active, dateCreated, dateModified);
+        return Objects.hash(id, firstName, lastName, secondLastName, birthDate, gender, nickName, email, language, country, phoneToken, privacyPolicy, coins, emailVerified, active, dateCreated, dateModified);
     }
 
     @Override
@@ -263,9 +275,10 @@ public class ClientDto {
                 ", gender='" + gender + '\'' +
                 ", nickName='" + nickName + '\'' +
                 ", email='" + email + '\'' +
-                ", phoneToken='" + phoneToken + '\'' +
                 ", language='" + language + '\'' +
                 ", country='" + country + '\'' +
+                ", phoneToken='" + phoneToken + '\'' +
+                ", privacyPolicy=" + privacyPolicy +
                 ", coins=" + coins +
                 ", emailVerified=" + emailVerified +
                 ", active=" + active +

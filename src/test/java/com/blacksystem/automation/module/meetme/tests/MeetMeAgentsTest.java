@@ -186,9 +186,8 @@ public class MeetMeAgentsTest extends BaseTest {
 
     @Test(description = "Post Empty Agent Verify Required Fields")
     public void test12_Post_Agent_Validation() throws IOException {
-        AgentDto agentDto = new AgentDto();
 
-        Response response  = RestAssuredAgents.postAgent(agentDto,200);
+        Response response  = RestAssuredAgents.postAgent("{}",200);
 
         AgentsErrorValidations data = Converter.fromJsonString(response);
         System.out.println(data);
