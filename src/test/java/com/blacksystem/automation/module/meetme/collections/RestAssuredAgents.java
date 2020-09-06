@@ -457,4 +457,24 @@ public class RestAssuredAgents {
         return response;
     }
 
+    public static Response online(String id , boolean online, int statusCode){
+        String endPoint = RestAssured.baseURI+"/api/agents/online/"+id+"/"+String.valueOf(online);
+        BaseTest.getEndPoint(endPoint);
+
+        Response response = given()
+
+                .when()
+                .put(endPoint)
+                .then()
+                .extract()
+                .response();
+
+        BaseTest.getResponse(response);
+        BaseTest.getStatusCode(response);
+        BaseTest.getResponseTime(response);
+
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Online Agent By Id Status Code Incorrect, ");
+        return response;
+    }
+
 }

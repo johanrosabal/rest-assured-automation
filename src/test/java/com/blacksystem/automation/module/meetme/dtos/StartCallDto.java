@@ -1,6 +1,8 @@
 package com.blacksystem.automation.module.meetme.dtos;
 import com.blacksystem.automation.module.meetme.enums.StatusCall;
 import com.blacksystem.automation.module.meetme.enums.TypeCall;
+import com.google.gson.Gson;
+import io.restassured.response.Response;
 
 import java.util.Objects;
 
@@ -8,15 +10,25 @@ public class StartCallDto {
 
     private String clientId;
     private String agentId;
-    private String status;
     private String type;
+    private String status;
 
     public StartCallDto(){}
+
+    public StartCallDto fromResponse(Response response){
+        StartCallDto dto = new Gson().fromJson(response.getBody().asString(),StartCallDto.class);
+
+        this.clientId = dto.clientId;
+        this.agentId = dto.agentId;
+        this.type = dto.type;
+        this.status =dto.status;
+
+        return this;
+    }
 
     public StartCallDto init(){
         this.clientId = "1";
         this.agentId = "1";
-        this.status = StatusCall.IN_PROGRESS.toString();
         this.type = TypeCall.PRIVATE.toString();
         return this;
     }
@@ -37,20 +49,20 @@ public class StartCallDto {
         this.agentId = agentId;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
@@ -66,7 +78,7 @@ public class StartCallDto {
 
     @Override
     public int hashCode() {
-        return Objects.hash(clientId, agentId, status, type);
+        return Objects.hash(clientId, agentId, type);
     }
 
     @Override
@@ -74,8 +86,8 @@ public class StartCallDto {
         return "StartCallDto{" +
                 "clientId='" + clientId + '\'' +
                 ", agentId='" + agentId + '\'' +
-                ", status='" + status + '\'' +
                 ", type='" + type + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 
@@ -90,17 +102,18 @@ public class StartCallDto {
             agentId="\"agentId\":\""+this.agentId+"\",";
         }
 
-        String status="";
-        if(this.status != null){
-            status="\"status\":\""+this.status+"\",";
-        }
-
         String type="";
         if(this.type != null){
             type="\"type\":\""+this.type+"\",";
         }
 
-        String json = "{"+clientId+agentId+status+type+"}";
+        String status="";
+        if(this.type != null){
+            status="\"status\":\""+this.status+"\",";
+        }
+
+
+        String json = "{"+clientId+agentId+type+status+"}";
         json= json.replace(",}","}");
         return json;
     }

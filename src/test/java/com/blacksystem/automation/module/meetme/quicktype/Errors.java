@@ -2,7 +2,9 @@ package com.blacksystem.automation.module.meetme.quicktype;
 
 import com.fasterxml.jackson.annotation.*;
 
-public class AgentsErrors {
+public class Errors {
+
+    /**********************************************  [ Agents ] *************************************************************/
     private String id;
     private String firstName;
     private String lastName;
@@ -111,4 +113,25 @@ public class AgentsErrors {
     public String getHeroPhoto() { return heroPhoto; }
     @JsonProperty("heroPhoto")
     public void setHeroPhoto(String value) { this.heroPhoto = value; }
+
+    /**********************************************  [ Start Calls ] *************************************************************/
+
+    private String clientID;
+    private String agentID;
+    private String type;
+
+    @JsonProperty("clientId")
+    public String getClientID() { return clientID; }
+    @JsonProperty("clientId")
+    public void setClientID(String value) { this.clientID = value; }
+
+    @JsonProperty("agentId")
+    public String getAgentID() { return agentID; }
+    @JsonProperty("agentId")
+    public void setAgentID(String value) { this.agentID = value; }
+
+    @JsonProperty("type")
+    public String getType() { return type; }
+    @JsonProperty("type")
+    public void setType(String value) { this.type = value; }
 }

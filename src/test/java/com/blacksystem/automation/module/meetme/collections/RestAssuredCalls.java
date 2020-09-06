@@ -15,16 +15,16 @@ public class RestAssuredCalls {
 
     public static Logger logger = LogManager.getLogger();
 
-    public static Response post(StartCallDto startCallDto, int statusCode){
+    public static Response startCall(StartCallDto startCallDto, int statusCode){
         String request = startCallDto.toJson();
         logger.info("****************************** Post Calls  ****************************** ");
-        return post(request,statusCode);
+        return startCall(request,statusCode);
     }
 
     /***
-     * Post New Agent Request with baseUrl, agentDto, statusCode
+     * Post Start Call
      */
-    public static Response post(String request, int statusCode){
+    public static Response startCall(String request, int statusCode){
 
         BaseTest.getRequestBody(request);
         String endPoint = RestAssured.baseURI+"/api/calls/start";
@@ -46,7 +46,57 @@ public class RestAssuredCalls {
         BaseTest.getStatusCode(response);
         BaseTest.getResponseTime(response);
 
-        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Post Calls Status Code Incorrect, ");
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Post Start Calls Status Code Incorrect, ");
         return response;
     }
+
+    /***
+     * Post End Call
+     */
+    public static Response endCallById(String id,int callTimeInSeconds, int statusCode){
+        BaseTest.pause(callTimeInSeconds);
+        BaseTest.pause();
+        String endPoint = RestAssured.baseURI+"/api/calls/end/"+id;
+        BaseTest.getEndPoint(endPoint);
+
+        Response response = given()
+
+                .when()
+                .put(endPoint)
+                .then()
+                .extract()
+                .response();
+
+        BaseTest.getResponse(response);
+        BaseTest.getStatusCode(response);
+        BaseTest.getResponseTime(response);
+
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Post End Calls Status Code Incorrect, ");
+        return response;
+    }
+
+    /***
+     * Get Call Information By Id
+     */
+    public static Response getById(String id, int statusCode){
+        String endPoint = RestAssured.baseURI+"/api/calls/"+id;
+        BaseTest.getEndPoint(endPoint);
+
+        Response response = given()
+
+                .when()
+                .get(endPoint)
+                .then()
+                .extract()
+                .response();
+
+        BaseTest.getResponse(response);
+        BaseTest.getStatusCode(response);
+        BaseTest.getResponseTime(response);
+
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Get Call By Id Status Code Incorrect, ");
+        return response;
+    }
+
+
 }

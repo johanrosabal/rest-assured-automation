@@ -13,6 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class DatesUtils {
 
     public static final String US_DATE = "MM-dd-yyyy";
+    public static final String US_DATE_TIME = "MM-dd-yyyy hh:mm:ss a";
 
     public static void main(String []args){
         currentTimeStamp();
