@@ -8,8 +8,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.response.Response;
 
-import java.util.*;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
@@ -49,11 +47,11 @@ public class Converter {
     }
     // Serialize/deserialize helpers
 
-    public static AgentsErrorValidations fromJsonString(Response response) throws IOException {
+    public static ResponseMessages fromJsonString(Response response) throws IOException {
         return getObjectReader().readValue(response.getBody().asString());
     }
 
-    public static String toJsonString(AgentsErrorValidations obj) throws JsonProcessingException {
+    public static String toJsonString(ResponseMessages obj) throws JsonProcessingException {
         return getObjectWriter().writeValueAsString(obj);
     }
 
@@ -73,8 +71,8 @@ public class Converter {
             }
         });
         mapper.registerModule(module);
-        reader = mapper.readerFor(AgentsErrorValidations.class);
-        writer = mapper.writerFor(AgentsErrorValidations.class);
+        reader = mapper.readerFor(ResponseMessages.class);
+        writer = mapper.writerFor(ResponseMessages.class);
     }
 
     private static ObjectReader getObjectReader() {

@@ -20,7 +20,7 @@ public class RestAssuredClients {
     /***
      * Post New Client Request with baseUrl, clientDTO, statusCode
      */
-    public static Response postClient(ClientDto clientDto, int statusCode){
+    public static Response post(ClientDto clientDto, int statusCode){
 
         String request = clientDto.toJson();
         BaseTest.getRequestBody(request);
@@ -51,7 +51,7 @@ public class RestAssuredClients {
     /***
      * Post New Client Request with baseUrl, clientDTO, statusCode, UUID active, Optional Id
      */
-    public static Response postClient (int statusCode, boolean UUID, int... id){
+    public static Response post(int statusCode, boolean UUID, int... id){
 
         ClientDto clientDto = new ClientDto().init();
         if(!UUID){
@@ -86,11 +86,11 @@ public class RestAssuredClients {
     /***
      * Post New Client Request with baseUrl, NumberOfClients, Status Code, UUID Active
      */
-    public static List<Response> postClients(int numberOfClients,int statusCode, boolean UUID){
+    public static List<Response> post(int numberOfClients, int statusCode, boolean UUID){
         List<Response> responses = new ArrayList<>();
         for(int i=1; i<=numberOfClients;i++){
 
-            Response response = postClient(statusCode,UUID,i);
+            Response response = post(statusCode,UUID,i);
             responses.add(response);
         }
 
@@ -98,7 +98,7 @@ public class RestAssuredClients {
     }
 
 
-    public static Response getClientById(String id, int statusCode){
+    public static Response getById(String id, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/clients/"+id;
         BaseTest.getEndPoint(endPoint);
 
@@ -118,7 +118,7 @@ public class RestAssuredClients {
         return response;
     }
 
-    public static Response getAllClients(int statusCode){
+    public static Response getAll(int statusCode){
         String endPoint = RestAssured.baseURI+"/api/clients/";
         BaseTest.getEndPoint(endPoint);
 
@@ -138,7 +138,7 @@ public class RestAssuredClients {
         return response;
     }
 
-    public static Response editClientById(String id,ClientDto clientDto, int statusCode){
+    public static Response editById(String id, ClientDto clientDto, int statusCode){
         String request = clientDto.toJson();
         BaseTest.getRequestBody(request);
 
@@ -165,7 +165,7 @@ public class RestAssuredClients {
         return response;
     }
 
-    public static Response deleteClientById(String id, int statusCode){
+    public static Response deleteById(String id, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/clients/"+id;
         BaseTest.getEndPoint(endPoint);
 
@@ -185,7 +185,7 @@ public class RestAssuredClients {
         return response;
     }
 
-    public static Response updateCoinsClientById(String id,int coins, int statusCode){
+    public static Response updateCoinsById(String id, int coins, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/clients/coins/"+id+"/"+coins;
         BaseTest.getEndPoint(endPoint);
 
@@ -225,7 +225,7 @@ public class RestAssuredClients {
         return response;
     }
 
-    public static Response activeClient(String id, int statusCode){
+    public static Response activeRecord(String id, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/clients/active/"+id+"/activate";
         BaseTest.getEndPoint(endPoint);
 
@@ -245,7 +245,7 @@ public class RestAssuredClients {
         return response;
     }
 
-    public static Response activeClientEmail(String id, int statusCode){
+    public static Response activeEmail(String id, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/clients/email-confirmation/"+id+"/inactive";
         BaseTest.getEndPoint(endPoint);
 
@@ -265,7 +265,7 @@ public class RestAssuredClients {
         return response;
     }
 
-    public static Response inactiveClientEmail(String id, int statusCode){
+    public static Response inactiveEmail(String id, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/clients/email-confirmation/"+id+"/activate";
         BaseTest.getEndPoint(endPoint);
 
@@ -285,7 +285,7 @@ public class RestAssuredClients {
         return response;
     }
 
-    public static Response updateClientPhoneToken(String id, String token, int statusCode){
+    public static Response updatePhoneToken(String id, String token, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/clients/token/"+id+"/"+token;
         BaseTest.getEndPoint(endPoint);
 

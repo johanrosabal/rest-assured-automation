@@ -17,16 +17,16 @@ import static io.restassured.RestAssured.given;
 public class RestAssuredAgents {
     public static Logger logger = LogManager.getLogger();
 
-    public static Response postAgent(AgentDto agentDto, int statusCode){
+    public static Response post(AgentDto agentDto, int statusCode){
         String request = agentDto.toJson();
         logger.info("****************************** Post Agent ["+ agentDto.getId() +"] ****************************** ");
-        return postAgent(request,statusCode);
+        return post(request,statusCode);
     }
 
     /***
      * Post New Agent Request with baseUrl, agentDto, statusCode
      */
-    public static Response postAgent(String request, int statusCode){
+    public static Response post(String request, int statusCode){
 
         BaseTest.getRequestBody(request);
         String endPoint = RestAssured.baseURI+"/api/agents";
@@ -55,7 +55,7 @@ public class RestAssuredAgents {
     /***
      * Post New Client Request with baseUrl, agentDto, statusCode, UUID active, Optional Id
      */
-    public static Response postAgent (int statusCode, boolean UUID, int... id){
+    public static Response post(int statusCode, boolean UUID, int... id){
 
         AgentDto agentDto = new AgentDto().init();
         if(!UUID){
@@ -90,11 +90,11 @@ public class RestAssuredAgents {
     /***
      * Post New Agent Request with baseUrl, NumberOfAgents, Status Code, UUID Active
      */
-    public static List<Response> postAgents(int numberOfClients,int statusCode, boolean UUID){
+    public static List<Response> post(int numberOfClients, int statusCode, boolean UUID){
         List<Response> responses = new ArrayList<>();
         for(int i=1; i<=numberOfClients;i++){
 
-            Response response = postAgent(statusCode,UUID,i);
+            Response response = post(statusCode,UUID,i);
             responses.add(response);
         }
 
@@ -102,7 +102,7 @@ public class RestAssuredAgents {
     }
 
 
-    public static Response getAgentById(String id, int statusCode){
+    public static Response getById(String id, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/agents/"+id;
         BaseTest.getEndPoint(endPoint);
 
@@ -122,7 +122,7 @@ public class RestAssuredAgents {
         return response;
     }
 
-    public static Response getAllAgents(int statusCode){
+    public static Response getAll(int statusCode){
         String endPoint = RestAssured.baseURI+"/api/agents/";
         BaseTest.getEndPoint(endPoint);
 
@@ -142,7 +142,7 @@ public class RestAssuredAgents {
         return response;
     }
 
-    public static Response editAgentsById(String id, AgentDto agentDto, int statusCode){
+    public static Response editById(String id, AgentDto agentDto, int statusCode){
         String request = agentDto.toJson();
         BaseTest.getRequestBody(request);
 
@@ -169,7 +169,7 @@ public class RestAssuredAgents {
         return response;
     }
 
-    public static Response deleteAgentById(String id, int statusCode){
+    public static Response deleteById(String id, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/agents/"+id;
         BaseTest.getEndPoint(endPoint);
 
@@ -189,13 +189,17 @@ public class RestAssuredAgents {
         return response;
     }
 
-    public static Response updateCoinsAgentById(String id,int coins, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/agents/coins/"+id+"/"+coins;
+    public static Response updateNotesById(String id,String request, int statusCode){
+        String endPoint = RestAssured.baseURI+"/api/agents/notes/"+id;
         BaseTest.getEndPoint(endPoint);
 
         Response response = given()
 
                 .when()
+                .headers("Content-Type","application/json")
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(request)
                 .put(endPoint)
                 .then()
                 .extract()
@@ -205,11 +209,11 @@ public class RestAssuredAgents {
         BaseTest.getStatusCode(response);
         BaseTest.getResponseTime(response);
 
-        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Update Coins Agent By Id Status Code Incorrect, ");
+        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Update Notes Agent By Id Status Code Incorrect, ");
         return response;
     }
 
-    public static Response inactiveAgent(String id, int statusCode){
+    public static Response inactive(String id, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/agents/active/"+id+"/inactive";
         BaseTest.getEndPoint(endPoint);
 
@@ -229,7 +233,7 @@ public class RestAssuredAgents {
         return response;
     }
 
-    public static Response activeAgent(String id, int statusCode){
+    public static Response active(String id, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/agents/active/"+id+"/activate";
         BaseTest.getEndPoint(endPoint);
 
@@ -249,7 +253,7 @@ public class RestAssuredAgents {
         return response;
     }
 
-    public static Response activeAgentEmail(String id, int statusCode){
+    public static Response activeEmail(String id, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/agents/email-confirmation/"+id+"/inactive";
         BaseTest.getEndPoint(endPoint);
 
@@ -269,7 +273,7 @@ public class RestAssuredAgents {
         return response;
     }
 
-    public static Response inactiveAgentEmail(String id, int statusCode){
+    public static Response inactiveEmail(String id, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/agents/email-confirmation/"+id+"/activate";
         BaseTest.getEndPoint(endPoint);
 
@@ -289,7 +293,7 @@ public class RestAssuredAgents {
         return response;
     }
 
-    public static Response updateAgentPhoneToken(String id, String token, int statusCode){
+    public static Response updatePhoneToken(String id, String token, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/agents/token/"+id+"/"+token;
         BaseTest.getEndPoint(endPoint);
 
@@ -349,7 +353,7 @@ public class RestAssuredAgents {
         return response;
     }
 
-    public static Response updatesNotesAgent(String id,String notes, int statusCode){
+    public static Response updatesNotes(String id, String notes, int statusCode){
         String endPoint = RestAssured.baseURI+"/api/agents/notes/"+id;
         BaseTest.getEndPoint(endPoint);
 
@@ -372,46 +376,6 @@ public class RestAssuredAgents {
         BaseTest.getResponseTime(response);
 
         Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Active Agent By Id Status Code Incorrect, ");
-        return response;
-    }
-
-    public static Response updatesTotalCallsAgent(String id,String calls, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/agents/total-calls/"+id+"/"+calls;
-        BaseTest.getEndPoint(endPoint);
-
-        Response response = given()
-
-                .when()
-                .put(endPoint)
-                .then()
-                .extract()
-                .response();
-
-        BaseTest.getResponse(response);
-        BaseTest.getStatusCode(response);
-        BaseTest.getResponseTime(response);
-
-        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Total Calls Agent By Id Status Code Incorrect, ");
-        return response;
-    }
-
-    public static Response updatesRateAgent(String id,String rate, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/agents/rates/"+id+"/"+rate;
-        BaseTest.getEndPoint(endPoint);
-
-        Response response = given()
-
-                .when()
-                .put(endPoint)
-                .then()
-                .extract()
-                .response();
-
-        BaseTest.getResponse(response);
-        BaseTest.getStatusCode(response);
-        BaseTest.getResponseTime(response);
-
-        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Rate Agent By Id Status Code Incorrect, ");
         return response;
     }
 

@@ -4,8 +4,13 @@
 
     <test name="MeetMe Suite Cases">
         <classes>
+            <!-- Basic End Points -->
             <class name="com.blacksystem.automation.module.meetme.tests.MeetMeClientsTest"/>
             <class name="com.blacksystem.automation.module.meetme.tests.MeetMeAgentsTest"/>
+
+            <!-- Validations End Points -->
+            <class name="com.blacksystem.automation.module.meetme.tests.MeetMeClientsValidationTest"/>
+            <class name="com.blacksystem.automation.module.meetme.tests.MeetMeAgentsValidationTest"/>
         </classes>
     </test> <!-- End Test -->
 </suite> <!-- End Suite -->

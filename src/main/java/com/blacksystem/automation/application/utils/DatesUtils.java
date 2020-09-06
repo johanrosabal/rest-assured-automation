@@ -1,5 +1,6 @@
 package com.blacksystem.automation.application.utils;
 
+import java.security.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,15 @@ import java.util.concurrent.ThreadLocalRandom;
 public class DatesUtils {
 
     public static final String US_DATE = "MM-dd-yyyy";
+
+    public static void main(String []args){
+        currentTimeStamp();
+    }
+
+    public static void currentTimeStamp(){
+        String timeStamp = new SimpleDateFormat().format(new Date());//"yyyy.MM.dd.HH.mm.ss"
+        System.out.println(timeStamp);
+    }
 
     public static String convertDateToString(Date date,String format){
         DateFormat dateFormat = new SimpleDateFormat(format);

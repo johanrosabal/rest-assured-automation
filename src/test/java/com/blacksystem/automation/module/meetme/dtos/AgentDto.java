@@ -27,25 +27,28 @@ public class AgentDto {
     private String phoneNumber ;
     private String language ;
     private String country ;
+    private String description ;
+
+    private String swipperPhoto ;
+    private String heroPhoto ;
 
     private String bankAccount ;
     private String bankName ;
 
-    private String description ;
-    private String swipperPhoto ;
-    private String heroPhoto ;
-
-    private int coins;
-    private int totalCalls;
-    private int rate;
-    private Boolean emailVerified ;
-    private String notes;
-    private boolean active ;
-    private boolean status ;
     private String phoneToken ;
+    private Boolean emailVerified ;
 
-    private String dateModified;
+    private boolean active ;
+    private boolean onLine;
+    private boolean onCall;
+
+    private String notes;
+    private int coins;
+    private int rate;
+    private int totalCalls;
+
     private String dateCreated;
+    private String dateModified;
 
     public AgentDto(){
 
@@ -63,30 +66,32 @@ public class AgentDto {
         this.gender = dto.gender;
         this.nickName = dto.nickName;
         this.email = dto.email;
-        this.phoneNumber = dto.phoneNumber;
 
+        this.phoneNumber = dto.phoneNumber;
         this.language = dto.language;
         this.country = dto.country;
-        this.phoneToken = dto.phoneToken;
+        this.description = dto.description;
+
+        this.swipperPhoto = dto.swipperPhoto;
+        this.heroPhoto = dto.heroPhoto;
 
         this.bankAccount = dto.bankAccount;
         this.bankName = dto.bankName;
 
-        this.description = dto.description;
-        this.swipperPhoto = dto.swipperPhoto;
-        this.heroPhoto = dto.heroPhoto;
+        this.phoneToken = dto.phoneToken;
         this.emailVerified = dto.emailVerified;
 
+        this.active = dto.active;
+        this.onLine = dto.onLine;
+        this.onCall = dto.onCall;
+
         this.notes = dto.notes;
-        this.rate = dto.rate;
         this.coins = dto.coins;
+        this.rate = dto.rate;
         this.totalCalls = dto.totalCalls;
 
-        this.active = dto.active;
-        this.status = dto.status;
-
-        this.dateModified = dto.dateModified;
         this.dateCreated = dto.dateCreated;
+        this.dateModified = dto.dateModified;
 
         return this;
     }
@@ -122,11 +127,12 @@ public class AgentDto {
         this.emailVerified = false;
 
         this.active = true;
-        this.status = false;
+        this.onLine = false;
+        this.onCall = false;
 
         this.notes = "";
-        this.rate = 0;
         this.coins = 0;
+        this.rate = 0;
         this.totalCalls = 0;
 
         this.dateModified = DatesUtils.convertDateToString(new Date(), DatesUtils.US_DATE);
@@ -231,22 +237,6 @@ public class AgentDto {
         this.country = country;
     }
 
-    public String getBankAccount() {
-        return bankAccount;
-    }
-
-    public void setBankAccount(String bankAccount) {
-        this.bankAccount = bankAccount;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -271,60 +261,20 @@ public class AgentDto {
         this.heroPhoto = heroPhoto;
     }
 
-    public int getCoins() {
-        return coins;
+    public String getBankAccount() {
+        return bankAccount;
     }
 
-    public void setCoins(int coins) {
-        this.coins = coins;
+    public void setBankAccount(String bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
-    public int getTotalCalls() {
-        return totalCalls;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setTotalCalls(int totalCalls) {
-        this.totalCalls = totalCalls;
-    }
-
-    public int getRate() {
-        return rate;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
-    }
-
-    public Boolean getEmailVerified() {
-        return emailVerified;
-    }
-
-    public void setEmailVerified(Boolean emailVerified) {
-        this.emailVerified = emailVerified;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
     public String getPhoneToken() {
@@ -335,12 +285,68 @@ public class AgentDto {
         this.phoneToken = phoneToken;
     }
 
-    public String getDateModified() {
-        return dateModified;
+    public Boolean getEmailVerified() {
+        return emailVerified;
     }
 
-    public void setDateModified(String dateModified) {
-        this.dateModified = dateModified;
+    public void setEmailVerified(Boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isOnLine() {
+        return onLine;
+    }
+
+    public void setOnLine(boolean onLine) {
+        this.onLine = onLine;
+    }
+
+    public boolean isOnCall() {
+        return onCall;
+    }
+
+    public void setOnCall(boolean onCall) {
+        this.onCall = onCall;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
+    public int getTotalCalls() {
+        return totalCalls;
+    }
+
+    public void setTotalCalls(int totalCalls) {
+        this.totalCalls = totalCalls;
     }
 
     public String getDateCreated() {
@@ -351,16 +357,25 @@ public class AgentDto {
         this.dateCreated = dateCreated;
     }
 
+    public String getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(String dateModified) {
+        this.dateModified = dateModified;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AgentDto agentDto = (AgentDto) o;
-        return coins == agentDto.coins &&
-                totalCalls == agentDto.totalCalls &&
+        return active == agentDto.active &&
+                onLine == agentDto.onLine &&
+                onCall == agentDto.onCall &&
+                coins == agentDto.coins &&
                 rate == agentDto.rate &&
-                active == agentDto.active &&
-                status == agentDto.status &&
+                totalCalls == agentDto.totalCalls &&
                 Objects.equals(id, agentDto.id) &&
                 Objects.equals(firstName, agentDto.firstName) &&
                 Objects.equals(lastName, agentDto.lastName) &&
@@ -373,21 +388,16 @@ public class AgentDto {
                 Objects.equals(phoneNumber, agentDto.phoneNumber) &&
                 Objects.equals(language, agentDto.language) &&
                 Objects.equals(country, agentDto.country) &&
-                Objects.equals(bankAccount, agentDto.bankAccount) &&
-                Objects.equals(bankName, agentDto.bankName) &&
                 Objects.equals(description, agentDto.description) &&
                 Objects.equals(swipperPhoto, agentDto.swipperPhoto) &&
                 Objects.equals(heroPhoto, agentDto.heroPhoto) &&
+                Objects.equals(bankAccount, agentDto.bankAccount) &&
+                Objects.equals(bankName, agentDto.bankName) &&
+                Objects.equals(phoneToken, agentDto.phoneToken) &&
                 Objects.equals(emailVerified, agentDto.emailVerified) &&
                 Objects.equals(notes, agentDto.notes) &&
-                Objects.equals(phoneToken, agentDto.phoneToken) &&
-                Objects.equals(dateModified, agentDto.dateModified) &&
-                Objects.equals(dateCreated, agentDto.dateCreated);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, secondLastName, ssn, birthDate, gender, nickName, email, phoneNumber, language, country, bankAccount, bankName, description, swipperPhoto, heroPhoto, coins, totalCalls, rate, emailVerified, notes, active, status, phoneToken, dateModified, dateCreated);
+                Objects.equals(dateCreated, agentDto.dateCreated) &&
+                Objects.equals(dateModified, agentDto.dateModified);
     }
 
     @Override
@@ -405,22 +415,28 @@ public class AgentDto {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", language='" + language + '\'' +
                 ", country='" + country + '\'' +
-                ", bankAccount='" + bankAccount + '\'' +
-                ", bankName='" + bankName + '\'' +
                 ", description='" + description + '\'' +
                 ", swipperPhoto='" + swipperPhoto + '\'' +
                 ", heroPhoto='" + heroPhoto + '\'' +
-                ", coins=" + coins +
-                ", totalCalls=" + totalCalls +
-                ", rate=" + rate +
-                ", emailVerified=" + emailVerified +
-                ", notes='" + notes + '\'' +
-                ", active=" + active +
-                ", status=" + status +
+                ", bankAccount='" + bankAccount + '\'' +
+                ", bankName='" + bankName + '\'' +
                 ", phoneToken='" + phoneToken + '\'' +
-                ", dateModified='" + dateModified + '\'' +
+                ", emailVerified=" + emailVerified +
+                ", active=" + active +
+                ", onLine=" + onLine +
+                ", onCall=" + onCall +
+                ", notes='" + notes + '\'' +
+                ", coins=" + coins +
+                ", rate=" + rate +
+                ", totalCalls=" + totalCalls +
                 ", dateCreated='" + dateCreated + '\'' +
+                ", dateModified='" + dateModified + '\'' +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, secondLastName, ssn, birthDate, gender, nickName, email, phoneNumber, language, country, description, swipperPhoto, heroPhoto, bankAccount, bankName, phoneToken, emailVerified, active, onLine, onCall, notes, coins, rate, totalCalls, dateCreated, dateModified);
     }
 
     public Map toMap(){
