@@ -106,7 +106,7 @@ public class MeetMeAgentsTest extends BaseTest {
         ResponseDto retrieveResponse = new ResponseDto(response);
         assertGroup.assertEquals(retrieveResponse.getID(),agentDto.getId());
         assertGroup.assertEquals(retrieveResponse.getStatus(),"COMPLETED");
-        assertGroup.assertEquals(retrieveResponse.getMessage(),"Active has been updated successfully.");
+        assertGroup.assertEquals(retrieveResponse.getMessage(),"Agent is inactivate successfully.");
         assertGroup.assertAll();
     }
 
@@ -121,7 +121,7 @@ public class MeetMeAgentsTest extends BaseTest {
         ResponseDto retrieveResponse = new ResponseDto(response);
         assertGroup.assertEquals(retrieveResponse.getID(),agentDto.getId());
         assertGroup.assertEquals(retrieveResponse.getStatus(),"COMPLETED");
-        assertGroup.assertEquals(retrieveResponse.getMessage(),"Active has been updated successfully.");
+        assertGroup.assertEquals(retrieveResponse.getMessage(),"Agent is active successfully.");
         assertGroup.assertAll();
     }
 
@@ -136,7 +136,7 @@ public class MeetMeAgentsTest extends BaseTest {
         ResponseDto retrieveResponse = new ResponseDto(response);
         assertGroup.assertEquals(retrieveResponse.getID(),agentDto.getId());
         assertGroup.assertEquals(retrieveResponse.getStatus(),"COMPLETED");
-        assertGroup.assertEquals(retrieveResponse.getMessage(),"Email Verified has been updated successfully.");
+        assertGroup.assertEquals(retrieveResponse.getMessage(),"Agent is Email confirmation has been reset.");
         assertGroup.assertAll();
     }
 
@@ -151,7 +151,7 @@ public class MeetMeAgentsTest extends BaseTest {
         ResponseDto retrieveResponse = new ResponseDto(response);
         assertGroup.assertEquals(retrieveResponse.getID(),agentDto.getId());
         assertGroup.assertEquals(retrieveResponse.getStatus(),"COMPLETED");
-        assertGroup.assertEquals(retrieveResponse.getMessage(),"Email Verified has been updated successfully.");
+        assertGroup.assertEquals(retrieveResponse.getMessage(),"Agent is Email has confirmed.");
         assertGroup.assertAll();
     }
 

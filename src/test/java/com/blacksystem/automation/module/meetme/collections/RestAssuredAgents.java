@@ -214,7 +214,7 @@ public class RestAssuredAgents {
     }
 
     public static Response inactive(String id, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/agents/active/"+id+"/inactive";
+        String endPoint = RestAssured.baseURI+"/api/agents/active/"+id+"/false";
         BaseTest.getEndPoint(endPoint);
 
         Response response = given()
@@ -234,7 +234,7 @@ public class RestAssuredAgents {
     }
 
     public static Response active(String id, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/agents/active/"+id+"/activate";
+        String endPoint = RestAssured.baseURI+"/api/agents/active/"+id+"/true";
         BaseTest.getEndPoint(endPoint);
 
         Response response = given()
@@ -254,7 +254,7 @@ public class RestAssuredAgents {
     }
 
     public static Response activeEmail(String id, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/agents/email-confirmation/"+id+"/inactive";
+        String endPoint = RestAssured.baseURI+"/api/agents/email-confirmation/"+id+"/true";
         BaseTest.getEndPoint(endPoint);
 
         Response response = given()
@@ -274,7 +274,7 @@ public class RestAssuredAgents {
     }
 
     public static Response inactiveEmail(String id, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/agents/email-confirmation/"+id+"/activate";
+        String endPoint = RestAssured.baseURI+"/api/agents/email-confirmation/"+id+"/false";
         BaseTest.getEndPoint(endPoint);
 
         Response response = given()
@@ -310,46 +310,6 @@ public class RestAssuredAgents {
         BaseTest.getResponseTime(response);
 
         Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Phone Token By Id Status Code Incorrect, ");
-        return response;
-    }
-
-    public static Response inactiveStatusAgent(String id, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/agents/status/"+id+"/inactive";
-        BaseTest.getEndPoint(endPoint);
-
-        Response response = given()
-
-                .when()
-                .put(endPoint)
-                .then()
-                .extract()
-                .response();
-
-        BaseTest.getResponse(response);
-        BaseTest.getStatusCode(response);
-        BaseTest.getResponseTime(response);
-
-        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Inactive Agent By Id Status Code Incorrect, ");
-        return response;
-    }
-
-    public static Response activeStatusAgent(String id, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/agents/status/"+id+"/activate";
-        BaseTest.getEndPoint(endPoint);
-
-        Response response = given()
-
-                .when()
-                .put(endPoint)
-                .then()
-                .extract()
-                .response();
-
-        BaseTest.getResponse(response);
-        BaseTest.getStatusCode(response);
-        BaseTest.getResponseTime(response);
-
-        Assert.assertEquals(response.getStatusCode(),statusCode,"[ERROR]: Active Agent By Id Status Code Incorrect, ");
         return response;
     }
 

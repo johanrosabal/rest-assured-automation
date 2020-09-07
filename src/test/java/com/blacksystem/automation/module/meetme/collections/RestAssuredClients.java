@@ -206,7 +206,7 @@ public class RestAssuredClients {
     }
 
     public static Response inactiveClient(String id, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/clients/active/"+id+"/inactive";
+        String endPoint = RestAssured.baseURI+"/api/clients/active/"+id+"/false";
         BaseTest.getEndPoint(endPoint);
 
         Response response = given()
@@ -226,7 +226,7 @@ public class RestAssuredClients {
     }
 
     public static Response activeRecord(String id, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/clients/active/"+id+"/activate";
+        String endPoint = RestAssured.baseURI+"/api/clients/active/"+id+"/true";
         BaseTest.getEndPoint(endPoint);
 
         Response response = given()
@@ -246,7 +246,7 @@ public class RestAssuredClients {
     }
 
     public static Response activeEmail(String id, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/clients/email-confirmation/"+id+"/inactive";
+        String endPoint = RestAssured.baseURI+"/api/clients/email-confirmation/"+id+"/false";
         BaseTest.getEndPoint(endPoint);
 
         Response response = given()
@@ -266,7 +266,7 @@ public class RestAssuredClients {
     }
 
     public static Response inactiveEmail(String id, int statusCode){
-        String endPoint = RestAssured.baseURI+"/api/clients/email-confirmation/"+id+"/activate";
+        String endPoint = RestAssured.baseURI+"/api/clients/email-confirmation/"+id+"/true";
         BaseTest.getEndPoint(endPoint);
 
         Response response = given()
