@@ -24,20 +24,21 @@ public class MeetMeAgentsValidationTest extends BaseTest {
         System.out.println(data);
 
         AgentErrorsDto errors = new AgentErrorsDto(response);
-        assertGroup.assertEquals(errors.getId(),"field must be provided.");
+        assertGroup.assertEquals(errors.getId(),"Id must be provided.");
         assertGroup.assertEquals(errors.getFirstName(),"First name must be provided.");
         assertGroup.assertEquals(errors.getLastName(),"Last name must be provided.");
         assertGroup.assertEquals(errors.getSecondLastName(),"Second last name must be provided.");
         assertGroup.assertEquals(errors.getSsn(),"Social Security Number must be provided.");
 
-        assertGroup.assertEquals(errors.getBirthDate(),"Cannot read property 'split' of undefined");
+        assertGroup.assertEquals(errors.getBirthDate(),"Birth Date must be provided.");
         assertGroup.assertEquals(errors.getGender(),"Gender must be provided.");
         assertGroup.assertEquals(errors.getNickName(),"Nickname must be provided.");
-        assertGroup.assertEquals(errors.getEmail(),"Is not a valid email.");
+        assertGroup.assertEquals(errors.getEmail(),"Email must be provided.");
         assertGroup.assertEquals(errors.getPhoneNumber(),"Phone Number must be provided.");
 
         assertGroup.assertEquals(errors.getLanguage(),"Language must be provided.");
         assertGroup.assertEquals(errors.getCountry(), "Country Code must be provided.");
+        assertGroup.assertEquals(errors.getDescription(), "Description must be provided.");
 
         assertGroup.assertAll();
     }

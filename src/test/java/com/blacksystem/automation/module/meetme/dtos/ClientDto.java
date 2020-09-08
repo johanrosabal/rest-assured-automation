@@ -76,7 +76,7 @@ public class ClientDto {
         this.birthDate = "01-01-2001";
         this.gender = "M";
         this.nickName = faker.funnyName().name().replace(" ","")+"_"+ NumbersUtils.getRandomNumberInts(1,99);
-        this.email = faker.funnyName().name().replace(" ","")+"_"+ NumbersUtils.getRandomNumberInts(1,99)+"@gmail.com";
+        this.email = (faker.funnyName().name().replace(" ","")+"_"+ NumbersUtils.getRandomNumberInts(1,99)+"@gmail.com").toLowerCase();
 
         this.language = "ES";
         this.country = "CR";

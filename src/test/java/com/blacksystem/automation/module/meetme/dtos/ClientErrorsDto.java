@@ -16,6 +16,7 @@ public class ClientErrorsDto {
     private String email;
     private String language;
     private String country;
+    private String privacyPolicy;
 
     public ClientErrorsDto(){
 
@@ -34,6 +35,7 @@ public class ClientErrorsDto {
         this.email          = errors.get(7).get("email");
         this.language       = errors.get(8).get("language");
         this.country        = errors.get(9).get("country");
+        this.privacyPolicy  = errors.get(10).get("privacyPolicy");
     }
 
     public String getId() {
@@ -114,5 +116,13 @@ public class ClientErrorsDto {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getPrivacyPolicy() {
+        return privacyPolicy;
+    }
+
+    public void setPrivacyPolicy(String privacyPolicy) {
+        this.privacyPolicy = privacyPolicy;
     }
 }

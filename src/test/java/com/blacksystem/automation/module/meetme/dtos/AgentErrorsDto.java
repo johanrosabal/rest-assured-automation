@@ -19,6 +19,7 @@ public class AgentErrorsDto {
     private String phoneNumber;
     private String language;
     private String country;
+    private String description;
 //    private String phoneToken;
 //    private String bankAccount;
 //    private String bankName;
@@ -45,12 +46,7 @@ public class AgentErrorsDto {
         this.phoneNumber    = errors.get(9).get("phoneNumber");
         this.language       = errors.get(10).get("language");
         this.country        = errors.get(11).get("country");
-//        this.phoneToken     = errors.get(12).get("phoneToken");
-//        this.bankAccount    = errors.get(13).get("bankAccount");
-//        this.bankName       = errors.get(14).get("bankName");
-//        this.description    = errors.get(15).get("description");
-//        this.swipperPhoto   = errors.get(16).get("swipperPhoto");
-//        this.heroPhoto      = errors.get(17).get("heroPhoto");
+        this.description    = errors.get(12).get("description");
 
     }
 
@@ -150,51 +146,13 @@ public class AgentErrorsDto {
         this.country = country;
     }
 
-//    public String getPhoneToken() {
-//        return phoneToken;
-//    }
-//
-//    public void setPhoneToken(String phoneToken) {
-//        this.phoneToken = phoneToken;
-//    }
-//
-//    public String getBankAccount() {
-//        return bankAccount;
-//    }
-//
-//    public void setBankAccount(String bankAccount) {
-//        this.bankAccount = bankAccount;
-//    }
-//
-//    public String getBankName() {
-//        return bankName;
-//    }
-//
-//    public void setBankName(String bankName) {
-//        this.bankName = bankName;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-//
-//    public String getSwipperPhoto() {
-//        return swipperPhoto;
-//    }
-//
-//    public void setSwipperPhoto(String swipperPhoto) {
-//        this.swipperPhoto = swipperPhoto;
-//    }
-//
-//    public String getHeroPhoto() {
-//        return heroPhoto;
-//    }
-//
-//    public void setHeroPhoto(String heroPhoto) {
-//        this.heroPhoto = heroPhoto;
-//    }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
 }
